@@ -39,6 +39,20 @@ namespace DllExportInjector
             public int Second;
         }
 
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct CalculationResult
+        {
+            [MarshalAs(UnmanagedType.I4)]
+            public int Addition;
+            [MarshalAs(UnmanagedType.I4)]
+            public int Subtraction;
+            [MarshalAs(UnmanagedType.I4)]
+            public int Multiply;
+            [MarshalAs(UnmanagedType.I4)]
+            public int Divide;
+        }
+
+
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to CsharpInjector demo for DllExport library");
@@ -99,6 +113,16 @@ namespace DllExportInjector
                 Param = "Injected string!",
                 Number = 1000
             });
+
+            // Get result struct
+            result = injectedModule.ExecuteFunction("Calc", new AddParams
+            {
+                First = 15,
+                Second = 5
+            });
+            CalculationResult calculationResult = result.To<CalculationResult>();
+
+            bool freed = result.To<bool>();
 
             injectedModule.Process.Close();
             Console.ReadLine();

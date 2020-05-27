@@ -17,7 +17,19 @@ namespace DllExportLibrary
             public byte* Param;
             public int Number;
         }
-        
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public class CalculationResult
+        {
+            public int Addition;
+            [MarshalAs(UnmanagedType.I4)]
+            public int Subtraction;
+            [MarshalAs(UnmanagedType.I4)]
+            public int Multiply;
+            [MarshalAs(UnmanagedType.I4)]
+            public int Divide;
+        }
+
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public class AddParams
@@ -62,6 +74,18 @@ namespace DllExportLibrary
             Console.WriteLine("Hello from injected dll Export::Main!");
 
             return 1;
+        }
+
+        [DllExport]
+        public static CalculationResult Calc(AddParams pars)
+        {
+            return new CalculationResult
+            {
+                Addition = pars.First + pars.Second,
+                Divide = pars.First / pars.Second,
+                Multiply = pars.First * pars.Second,
+                Subtraction = pars.First - pars.Second,
+            };
         }
 
         [DllExport]

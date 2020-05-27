@@ -1,0 +1,5 @@
+LIBRARY
+EXPORTS
+	Main		@1
+	MyFunction	@2
+	Add			@3

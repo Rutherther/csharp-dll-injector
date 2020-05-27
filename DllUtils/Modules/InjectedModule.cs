@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DllUtils.Interop;
+using DllUtils.Memory;
 using DllUtils.Process;
 
 namespace DllUtils.Modules
@@ -18,6 +19,12 @@ namespace DllUtils.Modules
 
         public string DllPath { get; }
 
+        public bool FreeLibrary()
+        {
+            RemoteModule kernel32 = Process.GetRemoteKernel32();
+            FunctionResult result = kernel32.ExecuteFunction("FreeLibrary", RemoteHandle);
 
+            return result.To<bool>();
+        }
     }
 }

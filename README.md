@@ -20,5 +20,9 @@ This is a simple C# dll injector. It can inject dll into remote process and exec
 - To inject dll use `Injector` class, the `Inject`  method will return `InjectedModule` with `ExecuteFunction` method
 ```
 InjectedModule injectedModule = Injector.Inject("RemoteProcess", "MyDynamicLibrary.dll");
-injectedModule.ExecuteFunction("Main");
+FunctionResult result = injectedModule.ExecuteFunction("Main");
+
+int integerResult = result.To<int>(); // Primitive types are casted from IntPtr, Reference types are Read from pointer
 ```
+
+- See examples for more

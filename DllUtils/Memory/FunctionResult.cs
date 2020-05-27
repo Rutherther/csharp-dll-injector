@@ -24,7 +24,7 @@ namespace DllUtils.Memory
 
         public T To<T>(bool reference = true)
         {
-            if (default(T) != null || !reference)
+            if (typeof(T).IsPrimitive)
             {
                 return (T) Convert.ChangeType((int)Address, typeof(T));
             }
@@ -32,13 +32,13 @@ namespace DllUtils.Memory
             int size = Marshal.SizeOf(typeof(T));
             byte[] bytes = new byte[size];
             Kernel32.ReadProcessMemory(Process.Handle, Address, bytes, (uint)size, out int bytesRead);
-            GCHandle gcHandle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
 
             if (bytesRead != size)
             {
                 throw new FunctionException("Whole function result could not be read.");
             }
 
+            GCHandle gcHandle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
             T obj = Marshal.PtrToStructure<T>(gcHandle.AddrOfPinnedObject());
             gcHandle.Free();
 

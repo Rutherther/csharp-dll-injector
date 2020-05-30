@@ -122,8 +122,6 @@ namespace DllExportInjector
             });
             CalculationResult calculationResult = result.To<CalculationResult>();
 
-            bool freed = result.To<bool>();
-
             injectedModule.Process.Close();
             Console.ReadLine();
         }

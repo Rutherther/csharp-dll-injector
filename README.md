@@ -1,3 +1,5 @@
+I would advise to use https://github.com/Reloaded-Project/Reloaded.Injector/ instead of this.
+
 # Important
 
 Only one function parameter can be passed.
